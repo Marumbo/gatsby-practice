@@ -1,24 +1,48 @@
+import { graphql } from "gatsby"
 import React from "react"
 import Layout from "../components/Layout"
-import * as styles from '../styles/project-details.module.css'
+import * as styles from "../styles/project-details.module.css"
+import { GatsbyImage, getImage } from "gatsby-plugin-image"
 
+const ProjectDetails = ({ data }) => {
+  //console.log(data);
 
-const ProjectDetails = () => {
+  const { html } = data.markdownRemark
+  const { title, stack, featuredImg } = data.markdownRemark.frontmatter
+
   return (
     <Layout>
-    <div className={styles.details}>
-      <h2>title</h2>
-      <h3>stack</h3>
-      <div className={styles.featured}>
-    
+      <div className={styles.details}>
+        <h2>{title}</h2>
+        <h3>{stack}</h3>
+        <div className={styles.featured}>
+          <GatsbyImage image={getImage(featuredImg)} alt="feature-image" />
+        </div>
+
+        <div
+          className={styles.html}
+           dangerouslySetInnerHTML={{ __html: html }}
+        />
       </div>
-     { /*
-         <div className={styles.html} dangerouslySetInnerHTML={<></>} />
-*/
-     } 
-    </div>
-  </Layout>
+    </Layout>
   )
 }
+
+export const query = graphql`
+  query Article($slug: String) {
+    markdownRemark(frontmatter: { slug: { eq: $slug } }) {
+      frontmatter {
+        title
+        stack
+        featuredImg {
+          childImageSharp {
+            gatsbyImageData(placeholder: BLURRED, formats: [AUTO, WEBP])
+          }
+        }
+      }
+      html
+    }
+  }
+`
 
 export default ProjectDetails

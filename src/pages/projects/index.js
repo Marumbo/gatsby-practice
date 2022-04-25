@@ -5,7 +5,7 @@ import Layout from "../../components/Layout"
 import * as styles from "../../styles/projects.module.css"
 
 export default function index({ data }) {
-  console.log(data)
+ // console.log(data)
   const projects = data.projects.nodes
   const contacts = data.contact.siteMetadata.contact
 
