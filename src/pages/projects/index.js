@@ -1,12 +1,14 @@
 import { graphql, Link } from "gatsby"
+import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import React from "react"
 import Layout from "../../components/Layout"
 import * as styles from "../../styles/projects.module.css"
 
 export default function index({ data }) {
-  //console.log(data)
+  console.log(data)
   const projects = data.projects.nodes
   const contacts = data.contact.siteMetadata.contact
+
   return (
     <Layout>
       <div className={styles.portfolio}>
@@ -16,6 +18,10 @@ export default function index({ data }) {
           {projects.map(project => (
             <Link to={`/projects/${project.frontmatter.slug}`} key={project.id}>
               <div>
+                <GatsbyImage
+                  image={getImage(project.frontmatter.thumb)}
+                  alt="thumbnail"
+                />
                 <h3>{project.frontmatter.title}</h3>
                 <p> {project.frontmatter.stack}</p>
               </div>
@@ -31,20 +37,27 @@ export default function index({ data }) {
 
 export const query = graphql`
   {
-    projects: allMarkdownRemark(sort: { fields: frontmatter___date, order: DESC }) {
+    projects: allMarkdownRemark(
+      sort: { fields: frontmatter___date, order: DESC }
+    ) {
       nodes {
         frontmatter {
           title
           slug
           stack
+          thumb {
+            childImageSharp {
+              gatsbyImageData(placeholder: BLURRED, formats: [AUTO, WEBP])
+            }
+          }
         }
         id
       }
     }
-     contact: site {
-        siteMetadata {
-          contact
-        }
+    contact: site {
+      siteMetadata {
+        contact
       }
+    }
   }
 `
