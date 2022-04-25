@@ -7,10 +7,10 @@ const Navbar = () => {
     query SiteQuery {
       site {
         siteMetadata {
-          title
+          title 
         }
       }
-    }
+    } 
   `)
 
   const {title} = data.site.siteMetadata

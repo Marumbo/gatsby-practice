@@ -1,15 +1,9 @@
-import { graphql, Link } from "gatsby"
+import {Link } from "gatsby"
 import React from "react"
 import Layout from "../components/Layout"
 import * as styles from "../styles/home.module.css"
 
 export default function Home({data}) {
-
-  //console.log(data);
-
-  const {title, description, copyright} = data.site.siteMetadata
-
- // console.log(title);
 
   return (
     <Layout>
@@ -28,14 +22,4 @@ export default function Home({data}) {
   )
 }
 
-export const query = graphql`
-  query MyQuery {
-    site {
-      siteMetadata {
-        copyright
-        description
-        title
-      }
-    }
-  }
-`
+ 
